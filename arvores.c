@@ -4,6 +4,8 @@
 #include <ctype.h>
 #include <string.h>
 
+static void stringToLower (char palavra[40]);
+
 Abp* incializaArvore (void){
     return NULL;
 }
@@ -31,26 +33,21 @@ Abp* insereAbp (Abp* arv, char chave[40], char sinonimo[40]){
     return arv;
 }
 
-comp = 0;
+int Altura (Abp *a){
+    int Alt_Esq, Alt_Dir;
+    
+    if (a == NULL)
+        return 0;
 
-Abp* consulta (Abp *a, char *chave){
-    comp++;
+    else {
+        Alt_Esq = Altura (a->esq);
+        Alt_Dir = Altura (a->dir);
 
-    while (a != NULL){
-        if (!strcmp(a->chave, chave)){
-            comp++;
-            return a;
-        } else {
-            comp++;
-            
-            if (strcmp(a->chave, chave) > 0)
-                a = a->esq;
-            else
-                a = a->dir;
-        }
+        if (Alt_Esq > Alt_Dir)
+            return (1 + Alt_Esq);
+        else
+            return (1 + Alt_Dir);
     }
-
-    return a;
 }
 
 static void stringToLower (char palavra[40]){
