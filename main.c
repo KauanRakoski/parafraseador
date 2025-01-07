@@ -78,7 +78,7 @@ void gera_parafrases(FILE *in, FILE *out, Abp* arv){
     while ((c = getc(in)) != EOF){
 
         // Se for um caractere válido, construímos a palavra
-        if (c != ' ' && c != '\n' && c != ',' && c != '.' && c != ';' && i < 39){
+        if (((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) && i < 39){
             naoespaco = 1;
             palavra[i] = c;
             i++;
@@ -94,24 +94,8 @@ void gera_parafrases(FILE *in, FILE *out, Abp* arv){
                 escreve_sinonimo(out, palavra, arv);
             }
 
-            // preservamos quebras de linha
-                if (c == '\n')
-                    fprintf(out, "\n");
-
-                // preservamos pontos
-                else if (c == '.')
-                    fprintf(out, ".");
-                
-                // preservamos virgulas
-                else if (c == ',')
-                    fprintf(out, ",");
-                
-                // preservamos ponto e vírgula
-                else if (c == ';')
-                    fprintf(out, ";");
-                
-                else if (c == ' ')
-                    fprintf(out, " ");
+            // preservamos caracteres "inválidos"
+            fprintf(out, "%c", c);
 
             naoespaco = 0;
         }
@@ -131,7 +115,7 @@ void gera_parafrases_avl(FILE *in, FILE *out, Avl* arv){
     while ((c = getc(in)) != EOF){
 
         // Se for um caractere válido, construímos a palavra
-        if (c != ' ' && c != '\n' && c != ',' && c != '.' && c != ';' && i < 39){
+        if (((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) && i < 39){
             naoespaco = 1;
             palavra[i] = c;
             i++;
@@ -147,27 +131,8 @@ void gera_parafrases_avl(FILE *in, FILE *out, Avl* arv){
                 escreve_sinonimo_avl(out, palavra, arv);
             }
 
-            
-                // preservamos quebras de linha
-                if (c == '\n')
-                    fprintf(out, "\n");              
-
-                // preservamos pontos
-                else if (c == '.')
-                    fprintf(out, ".");
-                
-                // preservamos virgulas
-                else if (c == ',')
-                    fprintf(out, ",");
-                
-                // preservamos ponto e vírgula
-                else if (c == ';')
-                    fprintf(out, ";");
-                
-                // preservamos ponto e vírgula
-                else if (c == ' ')
-                    fprintf(out, " ");
-            
+            // preservamos caracteres "inválidos"   
+            fprintf(out, "%c", c);    
 
             naoespaco = 0;
         }
