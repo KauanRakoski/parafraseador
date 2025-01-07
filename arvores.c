@@ -33,6 +33,7 @@ Abp* insereAbp (Abp* arv, char chave[40], char sinonimo[40]){
     return arv;
 }
 
+// Calcula a altura de uma ABP, baseado na quantidade de nós
 int Altura (Abp *a){
     int Alt_Esq, Alt_Dir;
     
@@ -40,6 +41,7 @@ int Altura (Abp *a){
         return 0;
 
     else {
+        // a altura da árvoré é 1 + a maior altura entre seus filhos
         Alt_Esq = Altura (a->esq);
         Alt_Dir = Altura (a->dir);
 
@@ -50,6 +52,7 @@ int Altura (Abp *a){
     }
 }
 
+// Função auxiliar para transformar uma string em minúsculas
 static void stringToLower (char palavra[40]){
     for (int i = 0; palavra[i] != '\0'; i++){
         palavra[i] = tolower(palavra[i]);
@@ -80,20 +83,20 @@ Avl* insereAVL (Avl* a, char chave[40], char sinonimo[40], int *ok, int *rotacoe
     }
     else if (strcmp(chave, a->chave) < 0) 
     {
-        a->esq = InsereAVL(a->esq,chave, sinonimo,ok);
+        a->esq = insereAVL(a->esq,chave, sinonimo,ok, rotacoes);
         if (*ok) 
         {
             switch (a->fb) 
             {
                 case -1: a->fb = 0; *ok = 0; break;
                 case 0: a->fb = 1; break;
-                case 1: a=Caso1(a,ok, rotacoes); break;
+                case 1: a= Caso1(a,ok, rotacoes); break;
             }
         }
     }
     else 
     {
-        a->dir = InsereAVL(a->dir,chave, sinonimo,ok);
+        a->dir = insereAVL(a->dir,chave, sinonimo,ok, rotacoes);
         if (*ok) 
         {
             switch (a->fb) 
@@ -107,7 +110,7 @@ Avl* insereAVL (Avl* a, char chave[40], char sinonimo[40], int *ok, int *rotacoe
  return a;
 }
 
-
+// Calcula a altura de uma AVL
 int AlturaAVL(Avl *a)
 {
     int Alt_Esq, Alt_Dir;
@@ -116,9 +119,10 @@ int AlturaAVL(Avl *a)
         return 0;
 
     else {
-        Alt_Esq = Altura (a->esq);
-        Alt_Dir = Altura (a->dir);
+        Alt_Esq = AlturaAVL (a->esq);
+        Alt_Dir = AlturaAVL (a->dir);
 
+        // A altura de um nó é 1 + a maior altura entre seus filhos
         if (Alt_Esq > Alt_Dir)
             return (1 + Alt_Esq);
         else
@@ -196,7 +200,7 @@ Avl* Caso1 (Avl *a , int *ok, int *rotacoes)
     if (z->fb == 1)
     {
         a = rotacao_simples_direita(a);
-        *rotacoes++;
+        *rotacoes += 1;
     }
        
     else
@@ -213,12 +217,13 @@ Avl* Caso1 (Avl *a , int *ok, int *rotacoes)
 //Função oriunda dos slides de aula com adaptações
 Avl* Caso2 (Avl *a , int *ok, int *rotacoes)
 {
-    Avl *z;
+    Avl *z = inicializaAVL();
+
     z = a->dir;
     if (z->fb == -1)
     {
         a = rotacao_simples_esquerda(a);
-        *rotacoes++;
+        *rotacoes+= 1;
     }
 
     else

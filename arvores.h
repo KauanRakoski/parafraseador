@@ -13,8 +13,8 @@ typedef struct nodoAVL
     char chave[40];
     char sinonimo[40];
     int fb;
-    struct TNodoA *esq;
-    struct TNodoA *dir;
+    struct nodoAVL *esq;
+    struct nodoAVL *dir;
 }Avl;
 
 // Inicializa uma árvore vazia

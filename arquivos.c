@@ -55,7 +55,7 @@ int gera_estatisticas (int tipo_arv, char *in, char *dict, int nodos, int alt, i
     }
     else{
         strcpy(arv_tipo, "AVL");
-        strcpy(file_name, "Estatisticas_AVL");
+        strcpy(file_name, "Estatisticas_AVL.txt");
     }
     
     stats = fopen(file_name, "w");
