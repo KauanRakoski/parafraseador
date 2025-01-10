@@ -206,7 +206,7 @@ Avl* Caso1 (Avl *a , int *ok, int *rotacoes)
     else
     {
         a = rotacao_dupla_direita(a);
-        *rotacoes = *rotacoes + 2;
+        *rotacoes = *rotacoes + 1;
     }
         
     a->fb = 0;
@@ -229,7 +229,7 @@ Avl* Caso2 (Avl *a , int *ok, int *rotacoes)
     else
     {
         a = rotacao_dupla_esquerda(a);
-        *rotacoes = *rotacoes + 2;
+        *rotacoes = *rotacoes + 1;
     }
 
     a->fb = 0;
