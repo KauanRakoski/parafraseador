@@ -75,7 +75,7 @@ int main (int argc, char* argv[]){
 }
 
 int c_valid(char c){
-    char separador[]= {" ,.&*%\?!;/-'@\"$#=><()][}{:\n\t"};
+    char separador[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
     int res = 1, i, tam = strlen(separador);
 
     for(i = 0; i < tam; i++)
