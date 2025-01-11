@@ -3,16 +3,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <strings.h>
 
-static void stringToLower (char palavra[40]);
 
 Abp* incializaArvore (void){
     return NULL;
 }
 
 Abp* insereAbp (Abp* arv, char chave[40], char sinonimo[40]){
-    stringToLower(chave);
-    stringToLower(sinonimo);
 
     if (arv == NULL){
         arv = (Abp*) malloc (sizeof(Abp));
@@ -23,12 +21,14 @@ Abp* insereAbp (Abp* arv, char chave[40], char sinonimo[40]){
     }
 
     // se for menor em ordem lexicográfica, inserimos na esquerda
-    else if (strcmp(chave, arv->chave) < 0)
+    else if (strcasecmp(chave, arv->chave) < 0){
         arv->esq = insereAbp(arv->esq, chave, sinonimo);
+    }
     
     // senão, inserimos na direita
-    else
+    else{
         arv->dir = insereAbp(arv->dir, chave, sinonimo);
+    }
 
     return arv;
 }
@@ -52,12 +52,6 @@ int Altura (Abp *a){
     }
 }
 
-// Função auxiliar para transformar uma string em minúsculas
-static void stringToLower (char palavra[40]){
-    for (int i = 0; palavra[i] != '\0'; i++){
-        palavra[i] = tolower(palavra[i]);
-    }
-}
 
 Avl* inicializaAVL(void)
 {
@@ -67,9 +61,6 @@ Avl* inicializaAVL(void)
 //Insere AVL dos slides de aula com adaptações
 Avl* insereAVL (Avl* a, char chave[40], char sinonimo[40], int *ok, int *rotacoes)
 {
-
-    stringToLower(chave);
-    stringToLower(sinonimo);
 
     if (a == NULL) 
     {
@@ -81,7 +72,7 @@ Avl* insereAVL (Avl* a, char chave[40], char sinonimo[40], int *ok, int *rotacoe
         a->fb = 0;
         *ok = 1;
     }
-    else if (strcmp(chave, a->chave) < 0) 
+    else if (strcasecmp(chave, a->chave) < 0) 
     {
         a->esq = insereAVL(a->esq,chave, sinonimo,ok, rotacoes);
         if (*ok) 

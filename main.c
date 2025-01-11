@@ -1,6 +1,8 @@
 #include "arvores.h"
 #include "arquivos.h"
 #include <string.h>
+#include <strings.h>
+#include <locale.h>
 
 void gera_parafrases(FILE *in, FILE *out, Abp* arv);
 void gera_parafrases_avl(FILE *in, FILE *out, Avl* arv);
@@ -13,6 +15,7 @@ Avl* consulta_avl (Avl *a, char *chave);
 int comp = 0;
 
 int main (int argc, char* argv[]){
+    setlocale(LC_ALL, "");
     // Criamos variáveis para armazenar o nome e os ponteiros dos arquivos
     char in_name[40], dicionario[40], out_name[40]; 
     FILE *in, *dict, *out;
@@ -71,6 +74,22 @@ int main (int argc, char* argv[]){
     return 0;
 }
 
+int c_valid(char c){
+    char separador[]= {" ,.&*%\?!;/-'@\"$#=><()][}{:\n\t"};
+    int res = 1, i, tam = strlen(separador);
+
+    for(i = 0; i < tam; i++)
+    {
+        if(c == separador[i])
+        {
+            res = 0;
+            i = tam;
+        }
+    }
+
+    return res;
+}
+
 void gera_parafrases(FILE *in, FILE *out, Abp* arv){
     char palavra[40], c;
     int i = 0, naoespaco = 1;
@@ -78,7 +97,7 @@ void gera_parafrases(FILE *in, FILE *out, Abp* arv){
     while ((c = getc(in)) != EOF){
 
         // Se for um caractere válido, construímos a palavra
-        if (((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) && i < 39){
+        if (c_valid(c) && i < 39){
             naoespaco = 1;
             palavra[i] = c;
             i++;
@@ -89,13 +108,13 @@ void gera_parafrases(FILE *in, FILE *out, Abp* arv){
             if (naoespaco){
                 palavra[i] = '\0';
                 i = 0;
-
                 // E geramos sinônimo
                 escreve_sinonimo(out, palavra, arv);
             }
 
             // preservamos caracteres "inválidos"
             fprintf(out, "%c", c);
+            //printf("%c\n", c);
 
             naoespaco = 0;
         }
@@ -115,7 +134,7 @@ void gera_parafrases_avl(FILE *in, FILE *out, Avl* arv){
     while ((c = getc(in)) != EOF){
 
         // Se for um caractere válido, construímos a palavra
-        if (((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) && i < 39){
+        if (c_valid(c) && i < 39){
             naoespaco = 1;
             palavra[i] = c;
             i++;
@@ -158,6 +177,7 @@ void escreve_sinonimo (FILE *out, char palavra[40], Abp *arv){
         strcpy (sinonimo, temp->sinonimo);
     }
 
+    setlocale(LC_ALL, "");
     fprintf(out, "%s", sinonimo); 
 }
 
@@ -175,6 +195,7 @@ void escreve_sinonimo_avl(FILE *out, char palavra[40], Avl *arv)
         strcpy (sinonimo, temp->sinonimo);
     }
 
+    setlocale(LC_ALL, "");
     fprintf(out, "%s", sinonimo); 
 }
 
@@ -182,14 +203,14 @@ void escreve_sinonimo_avl(FILE *out, char palavra[40], Avl *arv)
 Abp* consulta (Abp *a, char *chave){
     comp++;   
 
+    
     while (a != NULL){
-        if (!strcmp(a->chave, chave)){
+        if (!strcasecmp(a->chave, chave)){
             comp++;
             return a;
         } else {
             comp++;
-            
-            if (strcmp(a->chave, chave) > 0)
+            if (strcasecmp(a->chave, chave) > 0)
                 a = a->esq;
             else
                 a = a->dir;
@@ -204,13 +225,14 @@ Avl* consulta_avl (Avl *a, char *chave)
     comp++;
 
     while (a != NULL){
-        if (!strcmp(a->chave, chave)){
+        if (!strcasecmp(a->chave, chave)){
             comp++;
             return a;
+
         } else {
             comp++;
             
-            if (strcmp(a->chave, chave) > 0)
+            if (strcasecmp(a->chave, chave) > 0)
                 a = a->esq;
             else
                 a = a->dir;

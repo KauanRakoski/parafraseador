@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 int abrir_criar_arquivos (FILE **in, char *in_name, FILE **dict, char *dict_name, FILE **out, char *out_name){
     int success = 1;
@@ -37,6 +38,8 @@ void fechar_arquivos (FILE *in, FILE *dict, FILE *out){
 }
 
 int le_sinonimo (FILE *ptr, char chave[40], char sinonimo[40]){
+    setlocale(LC_ALL, "");
+    
     if (!feof(ptr)){
         fscanf(ptr, "%s %s\n", chave, sinonimo);
         return 1;
