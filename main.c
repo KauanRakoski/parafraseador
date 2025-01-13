@@ -74,6 +74,7 @@ int main (int argc, char* argv[]){
     return 0;
 }
 
+//Testa se um dado caracter é passível de formar uma palavra (se é uma letra)
 int c_valid(char c){
     char separador[]= {" ,.&*%\?!;/'@\"$#=><()][}{:\n\t"};
     int res = 1, i, tam = strlen(separador);
@@ -90,6 +91,9 @@ int c_valid(char c){
     return res;
 }
 
+//Lê o texto de entrada caracter por caracter até achar um separador. Armazena os caracteres lidos em uma string,
+// chama a função para escrever seu sinônimo no arquivo de saída.
+//Se encontramos um separador, o escrevemos direto no arquivo de saída, sem realizar consultas.
 void gera_parafrases(FILE *in, FILE *out, Abp* arv){
     char palavra[40], c;
     int i = 0, naoespaco = 1;
@@ -127,6 +131,9 @@ void gera_parafrases(FILE *in, FILE *out, Abp* arv){
     }
 }
 
+//Lê o texto de entrada caracter por caracter até achar um separador. Armazena os caracteres lidos em uma string,
+// chama a função para escrever seu sinônimo no arquivo de saída.
+//Se encontramos um separador, o escrevemos direto no arquivo de saída, sem realizar consultas.
 void gera_parafrases_avl(FILE *in, FILE *out, Avl* arv){
     char palavra[40], c;
     int i = 0, naoespaco = 1;
@@ -163,7 +170,7 @@ void gera_parafrases_avl(FILE *in, FILE *out, Avl* arv){
         escreve_sinonimo_avl(out, palavra, arv);
     }
 }
-
+//Escreve no arquivo de saída o sinônimo da palavra armazenada no string "palavra"
 void escreve_sinonimo (FILE *out, char palavra[40], Abp *arv){
     char sinonimo[40];
     Abp *temp = incializaArvore();
@@ -181,6 +188,7 @@ void escreve_sinonimo (FILE *out, char palavra[40], Abp *arv){
     fprintf(out, "%s", sinonimo); 
 }
 
+//Escreve no arquivo de saída o sinônimo da palavra armazenada no string "palavra"
 void escreve_sinonimo_avl(FILE *out, char palavra[40], Avl *arv)
 {
     char sinonimo[40];
@@ -220,6 +228,7 @@ Abp* consulta (Abp *a, char *chave){
     return NULL;
 };
 
+// Função fornecida para consulta e calculo de comparações
 Avl* consulta_avl (Avl *a, char *chave)
 {
     comp++;
